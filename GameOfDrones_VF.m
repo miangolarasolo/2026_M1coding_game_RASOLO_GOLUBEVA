@@ -1,26 +1,46 @@
 % ==========================================
 % GAME OF DRONES
+% File: GameOfDrones_VF.m
 % ==========================================
-% AUTORS :
+%
+% AUTHORS AND CONTRIBUTION:
 %   GOLUBEVA Elizaveta
 %   RASOLO Miangola
-% Equal contribution of the two authors
+%   Equal contribution of the two authors.
 %
-% DATE : October 8th 2026
+% DATE: October 8th 2026
+%   (format: Month Day Year)
 %
-% SOURCES : no external image, sound or word list.
-%           AI used /: ChatGPT and CLAUDE were used for improvement and
-%                       correction of the game code
+% SOURCES:
+%   No external image, sound or word list is used.
+%   All graphics are drawn with Octave commands (plot, text, rectangle).
+%   AI used: ChatGPT and Claude were used for improvement and
+%   correction of the game code.
 %
-% Octave Version : 11.3.0    &    Game version : 1.3
+% VERSIONS:
+%   Octave version: 11.3.0
+%   Game version  : 1.3
 %
+%
+% CONTEXT OF THE GAME:
+%   A small arcade game made for a programming course in Octave.
+%   It is inspired by classic "shoot'em up" games.
 %
 % DESCRIPTION:
-%   A small arcade game. You control a drone (cyan triangle) at the
-%   bottom of the screen. Red enemies fall from the top.
+%   You control a drone (cyan triangle) at the bottom of the screen.
+%   Red enemies fall from the top of the screen.
 %
 % GOAL:
 %   Shoot down 15 enemies to win and place the drone on the throne.
+%
+% GAME COMPONENTS:
+%   - the drone (controlled by the player)
+%   - bullets (shot by the drone)
+%   - enemies (fall from the top of the screen)
+%   - a score counter and a lives counter
+%   - a start page with the rules and the controls
+%   - buttons: START GAME, STOP GAME and REPLAY
+%   - a win screen (the throne) and a game over screen
 %
 % RULES:
 %   - You start with 3 lives.
@@ -28,19 +48,48 @@
 %     you lose one life.
 %   - If you lose all 3 lives, the game is over.
 %   - Each enemy hit by a bullet gives +1 point.
+%   - When you reach 15 points, you win.
 %
-% CONTROLS:
+% CONTROLS (WAYS TO MOVE):
 %   Left arrow  (or Q)  - move the drone left
 %   Right arrow (or D)  - move the drone right
 %   Down arrow          - stop the drone
 %   Space               - shoot
 %   (the drone keeps moving in the chosen direction until you
 %    press the opposite direction or the stop key)
+%   Click on the game window first so that it receives the keys.
+%
+% MAIN VARIABLES:
+%   droneX, droneY       position of the drone
+%   bulletsX, bulletsY   positions of the bullets
+%   enemiesX, enemiesY   positions of the enemies
+%   score                number of enemies defeated
+%   lives                number of remaining lives
+%   winningScore         score needed to win (15)
+%   moveLeft, moveRight  direction chosen with the keyboard
+%
+% MAIN LOOP (repeated every 0.03 seconds while the window is open):
+%   1. move the drone according to the keyboard
+%   2. create a new enemy at random (4 % chance per loop)
+%   3. move the enemies down and the bullets up
+%   4. draw the bullets and the enemies
+%   5. bullet / enemy collisions: the enemy disappears, +1 score
+%   6. enemy / drone collisions: the enemy disappears, -1 life
+%   7. update the score and lives displayed
+%   8. test the lose condition (0 lives) and the win condition
+%      (15 points)
+%   9. drawnow and pause(0.03) to control the speed of the game
+%
+% ACROSS TRIALS (between games):
+%   At the end of a game (win or game over), the REPLAY button starts
+%   a new game: the score and the lives are reset, and the enemies
+%   appear at new random positions, so each game is different.
+%   The STOP GAME button closes the game window.
 %
 % ==========================================
 
 
-function GameOfDrones()
+function GameOfDrones_VF()
 % Defines the main function called GameOfDrones.
 % The whole game is contained inside this function.
 
@@ -841,7 +890,7 @@ function GameOfDrones()
             bulletsY(end+1) = droneY + 5;
         end
 
-    end
+    endfunction
     % Ends the keyPressed function.
 
     % ==========================================
@@ -854,7 +903,7 @@ function GameOfDrones()
         if ishandle(fig)
             close(fig);
         end
-    end
+    endfunction
 
 
     % ==========================================
@@ -871,7 +920,7 @@ function GameOfDrones()
         close(startFig);
         % Closes the starting page before the game begins.
 
-    end
+    endfunction
     % Ends the startGame function.
 
 
@@ -1047,11 +1096,11 @@ function GameOfDrones()
         drawnow;
         % Forces MATLAB to immediately display the winning screen.
 
-    end
+    endfunction
     % Ends the showThrone function.
 
 
-end
+endfunction
 % Ends the main GameOfDrones function.
 
 % ==========================================
@@ -1066,7 +1115,7 @@ function restartGame(~, ~)
     % Start a completely new game.
     % GameOfDrones begins with 'close all', which closes the
     % old Game of Drones window before creating the new one.
-    GameOfDrones();
+    GameOfDrones_VF();
 
-end
+endfunction
 % Ends the restartGame function.
