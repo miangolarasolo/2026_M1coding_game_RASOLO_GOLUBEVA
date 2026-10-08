@@ -81,19 +81,10 @@
 %      (15 points)
 %  10. drawnow and pause(0.03) to control the speed of the game
 %
-% ACROSS TRIALS (between games):
-%   At the end of a game (win or game over), the REPLAY button starts
-%   a new game: the score and the lives are reset, and the enemies
-%   appear at new random positions, so each game is different.
-%   The STOP GAME button closes the game window.
-%
 % ==========================================
 
 
 function GameOfDrones_VF()
-% Defines the main function called GameOfDrones_VF.
-% The whole game is contained inside this function.
-
 
     % ==========================================
     % GAME OF DRONES
@@ -207,16 +198,9 @@ function GameOfDrones_VF()
         'FontSize', 0.4, ...
         'FontWeight', 'bold', ...
         'Units', 'normalized', ...
-        'Position', [0.375 0.025 0.25 0.07], ...
+        'Position', [0.3925 0.025 0.25 0.07], ...
         'Callback', @startGame);
     % Creates the START GAME button.
-    %
-    % 'FontUnits', 'normalized' makes the text size relative to the
-    % height of the button, so the text always fits in the button
-    % when the window is resized.
-    %
-    % When the player clicks the button, the startGame
-    % function is called.
 
     drawnow;
     % Forces MATLAB to display the starting page immediately.
@@ -236,13 +220,7 @@ function GameOfDrones_VF()
         'Position', [100 100 900 650], ...
         'KeyPressFcn', @keyPressed);
     % Creates a new MATLAB figure window.
-    %
-    % 'Name' sets the name displayed at the top of the window.
-    % 'Color', 'black' makes the background black.
-    % 'Position' sets the initial size of the window in pixels.
-    % 'KeyPressFcn' tells MATLAB what function to call
-    % whenever the user presses a keyboard key.
-    %
+
     % @keyPressed means that MATLAB will call the function
     % called "keyPressed" when a key is pressed.
     %
@@ -252,9 +230,6 @@ function GameOfDrones_VF()
 
     axis([0 100 0 100]);
     % Defines the coordinate system of the game.
-    %
-    % X-axis goes from 0 to 100.
-    % Y-axis goes from 0 to 100.
 
 
     axis manual;
@@ -275,12 +250,9 @@ function GameOfDrones_VF()
     % ------------------------------------------
 
     droneX = 50;
-    % Stores the initial horizontal position of the drone.
     % The drone starts in the middle of the screen.
 
-
     droneY = 10;
-    % Stores the initial vertical position of the drone.
     % The drone starts near the bottom.
 
 
@@ -289,16 +261,6 @@ function GameOfDrones_VF()
         'MarkerFaceColor', 'cyan', ...
         'MarkerEdgeColor', 'white');
     % Draws the drone on the screen.
-    %
-    % droneX and droneY determine its position.
-    % '^' creates a triangle-shaped marker.
-    % 'MarkerSize' controls the size of the drone.
-    % 'MarkerFaceColor' sets the inside color.
-    % 'MarkerEdgeColor' sets the outline color.
-    %
-    % "drone" stores the graphical object so that its
-    % position can be updated later.
-
 
     % Drone movement
     moveLeft = false;
@@ -320,9 +282,7 @@ function GameOfDrones_VF()
     %
     % [] means that the array is initially empty.
 
-
     bulletsY = [];
-    % Creates an empty array to store the Y positions of bullets.
 
 
     % ------------------------------------------
@@ -330,11 +290,8 @@ function GameOfDrones_VF()
     % ------------------------------------------
 
     enemiesX = [];
-    % Creates an empty array to store the X positions of enemies.
-
 
     enemiesY = [];
-    % Creates an empty array to store the Y positions of enemies.
 
 
     % Number of enemies defeated
@@ -357,14 +314,6 @@ function GameOfDrones_VF()
         ['Score: ' num2str(score)], ...
         'Color', 'white', ...
         'FontSize', 14);
-    % Creates text showing the current score.
-    %
-    % (2,95) determines the position of the text.
-    %
-    % num2str(score) converts the numerical score into text.
-    %
-    % ['Score: ' num2str(score)] combines the words
-    % "Score: " with the current score.
 
 
     lifeText = text(75, 95, ...
@@ -379,16 +328,19 @@ function GameOfDrones_VF()
     % Stop button
     % ------------------------------------------
 
-    uicontrol(fig, ...
+    stopButton = uicontrol(fig, ...
         'Style', 'pushbutton', ...
         'String', 'STOP GAME', ...
         'FontUnits', 'normalized', ...
         'FontSize', 0.5, ...
         'FontWeight', 'bold', ...
         'Units', 'normalized', ...
-        'Position', [0.375 0.92 0.25 0.05], ...
+        'Position', [0.3925 0.92 0.25 0.05], ...
         'Callback', @stopGame);
     % Creates a STOP GAME button during gameplay.
+    %
+    % "stopButton" stores the button so that it can be deleted
+    % when the game ends (it is not needed on the final screens).
 
 
     % ------------------------------------------
@@ -441,9 +393,6 @@ function GameOfDrones_VF()
         set(drone, 'XData', droneX, ...
                    'YData', droneY);
         % Updates the graphical position of the drone.
-        %
-        % XData changes the horizontal position.
-        % YData changes the vertical position.
 
 
         % --------------------------------------
@@ -472,7 +421,6 @@ function GameOfDrones_VF()
             % The enemy starts at Y = 95.
 
         end
-        % Ends the random enemy creation condition.
 
 
         % --------------------------------------
@@ -540,13 +488,7 @@ function GameOfDrones_VF()
                 'MarkerFaceColor', 'yellow', ...
                 'Tag', 'bullet');
             % Draws one bullet.
-            %
-            % bulletsX(i) gives its X position.
-            % bulletsY(i) gives its Y position.
-            % 'o' makes it circular.
-            % The bullet is yellow.
-            % 'Tag', 'bullet' allows us to find and delete
-            % these objects later.
+
 
         end
         % Ends the bullet drawing loop.
@@ -573,11 +515,7 @@ function GameOfDrones_VF()
                 'MarkerSize', 10, ...
                 'Tag', 'enemy');
             % Draws an enemy as a red circle.
-            %
-            % enemiesX(i) = horizontal position.
-            % enemiesY(i) = vertical position.
-            % MarkerSize controls its size.
-            % Tag "enemy" allows us to find these objects later.
+
 
         end
         % Ends the enemy drawing loop.
@@ -664,11 +602,10 @@ function GameOfDrones_VF()
 
 
             enemiesX(enemiesToDelete) = [];
-            % Removes the destroyed enemies from their X positions.
 
 
             enemiesY(enemiesToDelete) = [];
-            % Removes the destroyed enemies from their Y positions.
+
 
         end
         % Ends the enemy deletion condition.
@@ -714,10 +651,6 @@ function GameOfDrones_VF()
                 distance = abs(enemiesX(i) - droneX);
                 % Calculates the horizontal distance between
                 % the enemy and the drone.
-                %
-                % abs() gives the absolute value,
-                % so we don't care whether the enemy is
-                % to the left or right.
 
 
                 if distance < 7
@@ -790,6 +723,11 @@ function GameOfDrones_VF()
             % Clears everything from the current figure.
 
 
+            delete(stopButton);
+            % Removes the STOP GAME button of the gameplay screen.
+            % The final screen has its own buttons.
+
+
             text(50, 55, 'GAME OVER', ...
                 'Color', 'red', ...
                 'FontSize', 30, ...
@@ -817,19 +755,9 @@ function GameOfDrones_VF()
                 'FontSize', 0.4, ...
                 'FontWeight', 'bold', ...
                 'Units', 'normalized', ...
-                'Position', [0.375 0.20 0.25 0.08], ...
+                'Position', [0.3925 0.20 0.25 0.08], ...
                 'Callback', @restartGame);
             % Creates a Replay button on the Game Over screen.
-            %
-            % 'Style', 'pushbutton' creates a clickable button.
-            % 'String', 'REPLAY' sets the text displayed on the button.
-            % 'FontUnits', 'normalized' and 'FontSize', 0.4 make the
-            % text size relative to the button height.
-            % 'FontWeight', 'bold' makes the button text bold.
-            % 'Units', 'normalized' makes the position relative to the figure size.
-            % 'Position' controls the button's location and size.
-            % 'Callback', @restartGame tells MATLAB to run restartGame
-            % when the player clicks the button.
 
 
             uicontrol(fig, ...
@@ -839,7 +767,7 @@ function GameOfDrones_VF()
                 'FontSize', 0.4, ...
                 'FontWeight', 'bold', ...
                 'Units', 'normalized', ...
-                'Position', [0.375 0.10 0.25 0.08], ...
+                'Position', [0.3925 0.10 0.25 0.08], ...
                 'Callback', @stopGame);
             % Creates a STOP GAME button on the Game Over screen.
 
@@ -858,6 +786,11 @@ function GameOfDrones_VF()
         if score >= winningScore
         % Checks whether the player has defeated enough enemies
         % to win the game.
+
+
+            delete(stopButton);
+            % Removes the STOP GAME button of the gameplay screen.
+            % The winning screen has its own buttons.
 
 
             showThrone(droneX);
@@ -972,9 +905,6 @@ function GameOfDrones_VF()
     %
     % This function creates the screen displayed when the
     % player wins.
-    %
-    % "x" is an input argument containing the drone's X position.
-    % It is not actually used inside this function.
 
 
         cla;
@@ -1095,10 +1025,10 @@ function GameOfDrones_VF()
         % Draws the crown above the drone.
 
 
-        text(50, 12, ...
+        text(50, 16, ...
             ['Enemies defeated: ' num2str(score)], ...
             'Color', 'white', ...
-            'FontSize', 16, ...
+            'FontSize', 14, ...
             'HorizontalAlignment', 'center');
         % Displays the final number of defeated enemies.
 
@@ -1114,7 +1044,7 @@ function GameOfDrones_VF()
             'FontSize', 0.4, ...
             'FontWeight', 'bold', ...
             'Units', 'normalized', ...
-            'Position', [0.375 0.03 0.25 0.08], ...
+            'Position', [0.3925 0.03 0.25 0.08], ...
             'Callback', @restartGame);
         % Creates a Replay button on the winning screen.
         %
@@ -1129,7 +1059,7 @@ function GameOfDrones_VF()
             'FontSize', 0.4, ...
             'FontWeight', 'bold', ...
             'Units', 'normalized', ...
-            'Position', [0.375 0.13 0.25 0.08], ...
+            'Position', [0.3925 0.13 0.25 0.08], ...
             'Callback', @stopGame);
         % Creates a STOP GAME button on the winning screen.
 
